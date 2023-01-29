@@ -5,20 +5,25 @@
 @section('content')
  <form method="POST" action="/posts">
         @csrf
+        @method('PUT')
         <div class="mb-3">
             <label class="form-label">Title</label>
-            <input type="text" class="form-control" value={{$post['title']}}>
+            <input type="text" class="form-control" value={{$post->title}}>
         </div>
         <div class="mb-3">
             <label  class="form-label">Description</label>
             <textarea
                 class="form-control"
-            >{{$post['description']}}</textarea>
+            >{{$post->description}}</textarea>
         </div>
 
         <div class="mb-3">
             <label class="form-label">Posted by</label>
-            <input type="text" class="form-control" value={{$post['posted_by']}}>
+            @if($post->user)
+            <input type="text" class="form-control" value={{$post->user->name}}>
+            @else
+            <input type="text" class="form-control" value="User Not Found">
+            @endif
         </div>
 
         <div class="mb-3">

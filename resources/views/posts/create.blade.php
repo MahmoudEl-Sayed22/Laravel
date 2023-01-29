@@ -7,17 +7,23 @@
         @csrf
         <div class="mb-3">
             <label class="form-label">Title</label>
-            <input type="text" class="form-control" >
+            <input type="text" class="form-control" name="title" >
         </div>
         <div class="mb-3">
             <label  class="form-label">Description</label>
             <textarea
-                class="form-control"
+                class="form-control" name="description"
             ></textarea>
         </div>
         <div class="mb-3">
-            <label class="form-label">Posted by</label>
-            <input type="text" class="form-control" >
+            <label class="form-check-label">Post Creator</label>
+
+            <select name="post_creator" class="form-control">
+                @foreach($users as $user)
+                    <option value="{{$user->id}}">{{$user->name}}</option>
+                @endforeach
+
+            </select>
         </div>
         <button type="submit" class="btn btn-success">Submit</button>
     </form>
