@@ -29,11 +29,14 @@
                 @endif
                 <td>{{$post->created_at}}</td>
                 <td>
-{{--                    href="/posts/{{$post['id']}}"--}}
+                <form method="POST" action="{{route('posts.destroy', $post->id)}}" onsubmit="return confirm('Are you sure you want to delete this post?')">
+                    @csrf
+                    @method('delete')
                     <a href="{{route('posts.show', $post['id'])}}" class="btn btn-info">View</a>
                     <a href="{{route('posts.edit', $post['id'])}}" class="btn btn-primary">Edit</a>
-                    <a href="{{route('posts.destroy', $post['id'])}}" class="btn btn-danger">Delete</a>
+                    <input type="submit" class="btn btn-danger btn-sm" value="delete"/>
                 </td>
+            </form>
             </tr>
         @endforeach
 
