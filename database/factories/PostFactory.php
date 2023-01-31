@@ -1,7 +1,9 @@
 <?php
 
 namespace Database\Factories;
+use Tests\TestCase;
 use App\Models\post;
+// use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -9,18 +11,18 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class PostFactory extends Factory
 {
-    protected $model = Post::class;
+
     /**
      * Define the model's default state.
      *
-     * @return array
+     * @return array<string, mixed>
      */
 
     public function definition()
     {
         return [
             'title' => fake()->title(),
-            'description' => fake()->description(),
+            'description' => 'this is a course',
             'created_at' => now(),
         ];
     }

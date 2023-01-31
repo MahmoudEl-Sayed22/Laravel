@@ -1,3 +1,4 @@
+
 @extends('layouts.app')
 
 @section('title') index @endsection
@@ -43,5 +44,9 @@
 
         </tbody>
     </table>
+
+        {{$posts->links()}}
+
+
 
 @endsection
