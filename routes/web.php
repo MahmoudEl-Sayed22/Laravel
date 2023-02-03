@@ -19,6 +19,9 @@ Route::get('/', function () {
     return view('welcome');
 
 });
+Route::get('/posts/trashed', [PostController::class, 'trashed'])->name('posts.trashed');
+Route::post('/posts/trashed/{post}/restore', [PostController::class, 'trashedRestore'])->name('posts.trashed.restore');
+Route::post('/posts/trashed/{post}/force_delete', [PostController::class, 'trashedDelete'])->name('posts.trashed.destroy');
 
 Route::get('/posts', [PostController::class, 'index'])->name('posts.index')->middleware(middleware:"auth");
 
@@ -35,6 +38,7 @@ Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('posts.e
 Route::PUT('/posts/{post}', [PostController::class, 'update'])->name('posts.update');
 
 Route::DELETE('/posts/{post}', [PostController::class, 'destroy'])->name('posts.destroy');
+
 
 Auth::routes();
 

@@ -4,10 +4,6 @@
 @section('title') index @endsection
 
 @section('content')
-    <div class="text-center">
-        <a href="{{route('posts.create')}}" class="mt-4 btn btn-success">Create Post</a>
-        <a href="{{route('posts.trashed')}}" class="mt-4 btn btn-danger">To Trash</a>
-    </div>
     <table class="table mt-4">
         <thead>
         <tr>
@@ -21,8 +17,7 @@
         </thead>
         <tbody>
         @foreach($posts as $post)
-{{--            @dd($post)--}}
-            <tr>
+                       <tr>
                 <td>{{$post->id}}</td>
                 <td>{{$post->title}}</td>
                 @if($post->user)
@@ -35,12 +30,15 @@
                     <img src="{{ asset('uploads/posts/'.$post->image) }}" width="70px" height="70px" alt="image" name="image">
                 </td>
                 <td>
-                <form method="POST" action="{{route('posts.destroy', $post->id)}}" onsubmit="return confirm('Are you sure you want to delete this post?')">
+                <form method="POST" action="{{route('posts.trashed.restore', $post->id)}}" onsubmit="return confirm('Are you sure you want to restore this post?')">
                     @csrf
-                    @method('delete')
-                    <a href="{{route('posts.show', $post['id'])}}" class="btn btn-info">View</a>
-                    <a href="{{route('posts.edit', $post['id'])}}" class="btn btn-primary">Edit</a>
-                    <input type="submit" class="btn btn-danger btn-sm" value="delete"/>
+                    <input type="submit" class="btn btn-success btn-sm" value="Restore"/>
+                </td>
+                <td>
+            </form>
+                <form method="POST" action="{{route('posts.trashed.destroy', $post->id)}}" onsubmit="return confirm('Are you sure you want to Force delete this post?')">
+                    @csrf
+                    <input type="submit" class="btn btn-danger btn-sm" value="ForceDelete"/>
                 </td>
             </form>
             </tr>
@@ -49,9 +47,6 @@
 
         </tbody>
     </table>
-
-        {{$posts->links()}}
-
 
 
 @endsection

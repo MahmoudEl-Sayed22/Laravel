@@ -66,6 +66,8 @@ class PostController extends Controller
             'post' => $post,
         ]);
     }
+
+
     public function edit($postId)
     {
 
@@ -117,6 +119,29 @@ class PostController extends Controller
 
         return to_route(route:'posts.index');
     }
+
+    public function trashed()
+    {
+        $posts = post::onlyTrashed()->get();
+        return view('posts.trashed',[
+            'posts'=>$posts
+        ]);
+    }
+
+
+    public function trashedRestore($id)
+    {
+        $post = post::onlyTrashed()->findOrFail($id);
+        $post->restore();
+        return to_route(route:'posts.index');
+    }
+    public function trashedDelete($id)
+    {
+        $post = post::onlyTrashed()->findOrFail($id);
+        $post->forceDelete();
+        return to_route(route:'posts.index');
+    }
+
 
 }
 
