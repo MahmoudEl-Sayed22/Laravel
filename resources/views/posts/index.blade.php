@@ -14,6 +14,7 @@
             <th scope="col">Title</th>
             <th scope="col">Posted By</th>
             <th scope="col">Created At</th>
+            <th scope="col">Image</th>
             <th scope="col">Actions</th>
         </tr>
         </thead>
@@ -29,6 +30,9 @@
                 <td>User Not Found</td>
                 @endif
                 <td>{{$post->created_at}}</td>
+                <td>
+                    <img src="{{ asset('uploads/posts/'.$post->image) }}" width="70px" height="70px" alt="image" name="image">
+                </td>
                 <td>
                 <form method="POST" action="{{route('posts.destroy', $post->id)}}" onsubmit="return confirm('Are you sure you want to delete this post?')">
                     @csrf

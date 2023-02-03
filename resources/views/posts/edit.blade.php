@@ -3,19 +3,22 @@
 @section('title') Update @endsection
 
 @section('content')
- <form method="POST" action="{{route('posts.update', $post->id)}}">
+ <form method="POST" action="{{route('posts.update', $post->id)}}" enctype="multipart/form-data">
         @csrf
          @method('PUT')
          <div class="mb-3">
-            {{-- <label class="form-label">Title</label> --}}
             <input type="hidden" class="form-control" value={{$post->id}} name="id">
+        </div>
+        <div>
+            <input type="hidden" class="form-control" value={{$post->title}} name="title">
         </div>
         <div class="mb-3">
             <label class="form-label">Title</label>
-            <input type="text" class="form-control" value={{$post->title}} name="title">
+            <textarea
+                class="form-control" name="description"
+            >{{$post->title}}</textarea>
         </div>
         <div class="mb-3">
-            {{-- <label class="form-label">Title</label> --}}
             <input type="hidden" class="form-control" value={{$post->description}} name="description">
         </div>
         <div class="mb-3">
@@ -28,15 +31,21 @@
         <div class="mb-3">
             <label class="form-label">Posted by</label>
             @if($post->user)
-            <input type="text" class="form-control"  value={{$post->user->name}} name="post_creator">
+            <div>{{$post->user->name}}</div>
             @else
-            <input type="text" class="form-control" value="User Not Found" name="post_creator">
+            <div>User Not Found</div>
             @endif
         </div>
 
         <div class="mb-3">
             <label class="form-label">Created at</label>
             <input type="text" class="form-control" value={{$post['created_at']}}>
+        </div>
+
+        <div class="mb-3">
+            <label class="form-label">Image</label>
+            <input type="file" class="form-control" name="image" value={{$post['image']}}>
+            <img src="{{ asset('uploads/posts/'.$post->image) }}" width="70px" height="70px" alt="image">
         </div>
 
 

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+// use Illuminate\Http\Request;
+use \Illuminate\Http\Request ;
+use Illuminate\Support\Facades\File;
 use App\Models\post;
 use App\Models\User;
 use App\Http\Requests\StorePostRequest;
@@ -36,11 +38,21 @@ class PostController extends Controller
         $title =$data['title'];
         $description = $data['description'];
         $userId = $data['post_creator'];
+        if($request->hasFile('image')){
+            $file = $request->File('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time().'.'.$extension;
+            $file ->move('uploads/posts/', $filename);
+            $data['image'] = $filename ;
+
+        }
 
         post::create([
             'title'=> $title,
             'description' => $description,
             'user_id' => $userId,
+            'image' => $filename,
+
         ]);
         return to_route(route:'posts.index');
         }
@@ -58,27 +70,46 @@ class PostController extends Controller
     {
 
         $post=post::find($postId);
+        // dd($post);
         return view('posts.edit',[
             'post' => $post,
         ]);
     }
-    public function update(Request $request)
+    public function update(Request $request,$id)
     {
         // dd($request);
-        $data= $request->all();
+                $post = post::find($id);
+                $data= $request->all();
         // dd($data);
-        // dd($data);
+        // dd($data,$post);
         $title =$data['title'];
         $description = $data['description'];
-        // $userId = $data['id'];
+        if($request->hasFile('image')){
+            $destination= 'uploads/posts/'.$post->image;
+        if (File::exists($destination)) {
+        File::delete($destination);
+        }
+            $file = $request->File('image');
+            $extension = $file->getClientOriginalExtension();
+            $filename = time().'.'.$extension;
+            $file ->move('uploads/posts/', $filename);
+            $data['image'] = $filename ;
+        }else{
+            $filename = $post->image;
+        }
+        // dd($filename);
+
 
         post::where('id',$data['id'] )->update([
             'title'=> $title,
             'description' => $description,
+            'image' => $filename,
             // 'user_id' => $userId,
+
         ]);
         return to_route(route:'posts.index');
     }
+
     public function destroy($postId)
     {
         $post=post::find($postId);

@@ -12,7 +12,7 @@
             </ul>
         </div>
     @endif
- <form method="POST" action="/posts">
+ <form method="POST" action="/posts" enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
             <label class="form-label">Title</label>
@@ -33,6 +33,10 @@
                 @endforeach
 
             </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Image</label>
+            <input type="file" class="form-control" name="image" >
         </div>
         <button type="submit" class="btn btn-success">Submit</button>
     </form>
