@@ -12,7 +12,7 @@ use App\Http\Resources\PostResource;
 class PostController extends Controller
 {
     public function index(){
-        $posts= post::all();
+        $posts= post::with('user')->all();
 
         return PostResource::collection($posts);
         // $response =[];
