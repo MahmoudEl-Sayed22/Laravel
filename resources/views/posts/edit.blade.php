@@ -26,7 +26,7 @@
             <textarea
                 class="form-control" name="description"
             >{{$post->description}}</textarea>
-        </div>
+            </div>
 
         <div class="mb-3">
             <label class="form-label">Posted by</label>
@@ -38,8 +38,14 @@
         </div>
 
         <div class="mb-3">
+            {{-- <label class="form-label">Created at</label> --}}
+            <input type="hidden" class="form-control" value={{$date}}>
+        </div>
+        <div class="mb-3">
             <label class="form-label">Created at</label>
-            <input type="text" class="form-control" value={{$post['created_at']}}>
+            <textarea
+                class="form-control" name="created_at"
+            >{{$date}}</textarea>
         </div>
 
         <div class="mb-3">

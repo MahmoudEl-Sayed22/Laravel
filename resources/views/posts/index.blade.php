@@ -13,6 +13,7 @@
         <tr>
             <th scope="col">#</th>
             <th scope="col">Title</th>
+            <th scope="col">Slug</th>
             <th scope="col">Posted By</th>
             <th scope="col">Created At</th>
             <th scope="col">Image</th>
@@ -25,12 +26,13 @@
             <tr>
                 <td>{{$post->id}}</td>
                 <td>{{$post->title}}</td>
+                <td>{{$post->slug}}</td>
                 @if($post->user)
                 <td>{{$post->user->name}}</td>
                 @else
                 <td>User Not Found</td>
                 @endif
-                <td>{{$post->created_at}}</td>
+                <td>{{$post->created_at->format('Y-m-d')}}</td>
                 <td>
                     <img src="{{ asset('uploads/posts/'.$post->image) }}" width="70px" height="70px" alt="image" name="image">
                 </td>

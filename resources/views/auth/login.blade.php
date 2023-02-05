@@ -63,6 +63,9 @@
                                     </a>
                                 @endif
                             </div>
+                            <div class="col-md-8 offset-md-4">
+                                <input type="button" href="{{ url('/auth/github/redirect')}}" class="btn btn-danger" value="login using github">
+                            </div>
                         </div>
                     </form>
                 </div>

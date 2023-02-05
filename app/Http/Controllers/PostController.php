@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\File;
 use App\Models\post;
 use App\Models\User;
 use App\Http\Requests\StorePostRequest;
+use Illuminate\Support\Carbon;
+
 
 class PostController extends Controller
 {
@@ -38,14 +40,18 @@ class PostController extends Controller
         $title =$data['title'];
         $description = $data['description'];
         $userId = $data['post_creator'];
-        if($request->hasFile('image')){
-            $file = $request->File('image');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time().'.'.$extension;
-            $file ->move('uploads/posts/', $filename);
-            $data['image'] = $filename ;
-
+if ($request->hasFile('image')) {
+    $file = $request->File('image');
+    $extension = $file->getClientOriginalExtension();
+    $filename = time().'.'.$extension;
+    $file ->move('uploads/posts/', $filename);
+    $data['image'] = $filename ;
+}
+        else{
+            $filename='';
         }
+
+
 
         post::create([
             'title'=> $title,
@@ -60,10 +66,11 @@ class PostController extends Controller
     public function show($postId)
     {
         $post=post::find($postId);
-
+        $date=$post->created_at;
                 // dd($postId);
         return view('posts.show',[
             'post' => $post,
+            'date' =>Carbon::createFromFormat('Y-m-d H:i:s',$date)->format('l jS \of F Y h:i:s A'),
         ]);
     }
 
@@ -72,9 +79,11 @@ class PostController extends Controller
     {
 
         $post=post::find($postId);
-        // dd($post);
+        $date=$post->created_at;
+        // dd($date);
         return view('posts.edit',[
             'post' => $post,
+            'date' =>Carbon::createFromFormat('Y-m-d H:i:s',$date)->format('l jS \of F Y h:i:s A'),
         ]);
     }
     public function update(Request $request,$id)

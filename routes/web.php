@@ -1,8 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use App\Http\Controllers\PostController;
+use App\Models\User;
 use App\Http\Controllers\commentController;
+use \Illuminate\Http\Request ;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -46,10 +52,59 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 use Laravel\Socialite\Facades\Socialite;
 
-Route::get('/auth/redirect', function () {
+//login using github
+
+Route::get('/auth/github/redirect', function () {
     return Socialite::driver('github')->redirect();
+
 });
 
-Route::get('/auth/callback', function () {
-    $user = Socialite::driver('github')->user();
+Route::get('/auth/github/callback', function (Request $request) {
+    $userdata = Socialite::driver('github')->user();
+    $user = User::where('email',$userdata->email)->where('auth_type','github')->first();
+    if($user)
+    {
+        Auth::login($user);
+    return redirect('/posts');
+    }
+    else{
+    $uuid = str::uuid()->toString();
+    $user = new User();
+    $user->name = $userdata->nickname;
+    $user->email =$userdata->email;
+    $user->password = Hash::make($uuid.now());
+    $user->auth_type = 'github';
+    $user->save();
+    Auth::login($user);
+    return redirect('/posts');
+}
+});
+
+
+//login using google
+Route::get('/auth/google/redirect', function () {
+    return Socialite::driver('google')->redirect();
+
+});
+
+Route::get('/auth/google/callback', function (Request $request) {
+    $userdata = Socialite::driver('google')->user();
+    $user = User::where('email',$userdata->email)->where('auth_type','google')->first();
+    if($user)
+    {
+        Auth::login($user);
+    return redirect('/posts');
+    }
+    else{
+    $uuid = str::uuid()->toString();
+    $user = new User();
+    $user->name = $userdata->nickname;
+    $user->email =$userdata->email;
+    $user->password = Hash::make($uuid.now());
+    $user->auth_type = 'google';
+    $user->save();
+    Auth::login($user);
+    return redirect('/posts');
+}
+    // dd($userdata);
 });

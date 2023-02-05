@@ -20,7 +20,7 @@
         @endif
 
         <div class="card-footer  border-success" style="text-align:center;background-color: powderblue;">
-            Created at : {{$post->created_at}}
+            Created at : {{$date}}
          </div>
          <div style="margin:30px auto"
          <h6>Display Comments</h6>
